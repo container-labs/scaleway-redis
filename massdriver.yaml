@@ -1,0 +1,115 @@
+# This file will be used to generate all of the schema-*.json files in a bundle
+schema: draft-07
+name: "scw-redis"
+description: "Scaleway Redis cluster"
+source_url: github.com/massdriver-cloud/scw-redis
+access: "public"
+type: "infrastructure"
+
+# schema-params.json
+# JSON Schema sans-fields above
+params:
+  examples:
+    - __name: Development
+      node_type: RED1-MICRO
+      cluster_mode: standalone
+    - __name: Production
+      node_type: RED1-M
+      cluster_mode: cluster
+      node_count: 4
+  required:
+    - node_type
+    - cluster_mode
+  properties:
+    node_type:
+      type: string
+      title: Node Type
+      description: ""
+      default: RED1-MICRO
+      oneOf:
+        - const: RED1-MICRO
+          title: "2 vCPUs, 2 GB RAM"
+        - const: RED1-2XS
+          title: "3 vCPUs, 4 GB RAM"
+        - const: RED1-XS
+          title: "4 vCPUs, 8 GB RAM"
+        - const: RED1-S
+          title: "4 vCPUs, 12 GB RAM"
+        - const: RED1-M
+          title: "4 vCPUs, 16 GB RAM"
+        - const: RED1-L
+          title: "8 vCPUs, 32 GB RAM"
+        - const: RED1-XL
+          title: "16 vCPUs, 64 GB RAM"
+    cluster_mode:
+      type: string
+      title: Cluster Mode
+      description: ""
+      default: standalone
+      oneOf:
+        - const: standalone
+          title: "Standalone"
+        - const: cluster
+          title: "Cluster"
+    zone:
+      title: Zone
+      type: string
+      $md.immutable: true
+      oneOf:
+      - const: fr-par-1
+        title: Paris 1
+      - const: fr-par-2
+        title: Paris 2
+      - const: nl-ams-1
+        title: Amsterdam 1
+      - const: pl-waw-1
+        title: Warsaw 1
+  dependencies:
+    cluster_mode:
+      oneOf:
+        - properties:
+            cluster_mode:
+              const: standalone
+        - properties:
+            cluster_mode:
+              const: cluster
+            node_count:
+              type: integer
+              title: Node Count
+              description: Number of nodes in the cluster, between 3 and 6.
+              default: 3
+              minimum: 3
+              maximum: 6
+
+
+
+# schema-connections.json
+# Named list of input connections (artifacts) (map[name]artifact)
+
+connections:
+  required:
+    - scw_authentication
+    - network
+  properties:
+    scw_authentication:
+      $ref: massdriver/scw-api-key
+    network:
+      $ref: massdriver/scw-vpc
+
+
+# schema-artifacts.json
+# Named list of output artifacts  (map[name]artifact)
+artifacts:
+  required:
+    - authentication
+  properties:
+    authentication:
+      $ref: massdriver/redis-authentication
+
+# schema-ui.json
+# List of form customizations for params-schema
+ui:
+  ui:order:
+    - node_type
+    - cluster_mode
+    - "*"
