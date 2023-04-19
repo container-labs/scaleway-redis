@@ -14,7 +14,7 @@ resource "random_password" "root_user_password" {
 
 resource "scaleway_redis_cluster" "main" {
   name      = var.md_metadata.name_prefix
-  version   = "6.2.6"
+  version   = "6.2.7"
   node_type = var.node_type
   user_name = "root"
   password  = random_password.root_user_password.result
@@ -26,7 +26,6 @@ resource "scaleway_redis_cluster" "main" {
   private_network {
     id = var.network.data.infrastructure.id
     service_ips = [
-      "192.168.0.0/24",
       "10.12.1.1/20",
     ]
   }

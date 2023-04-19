@@ -81,8 +81,6 @@ params:
               minimum: 3
               maximum: 6
 
-
-
 # schema-connections.json
 # Named list of input connections (artifacts) (map[name]artifact)
 
@@ -91,10 +89,16 @@ connections:
     - scw_authentication
     - network
   properties:
+    # TODO: add artifact for scw-api-key
+    # scw_authentication:
+    #   $ref: massdriver/scw-api-key
     scw_authentication:
-      $ref: massdriver/scw-api-key
+      $ref: massdriver/gcp-service-account
+    # TODO: add artifact for scw-vpc
+    # network:
+    #   $ref: massdriver/scw-vpc
     network:
-      $ref: massdriver/scw-vpc
+      $ref: massdriver/gcp-global-network
 
 
 # schema-artifacts.json

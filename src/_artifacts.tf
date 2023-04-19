@@ -1,6 +1,7 @@
 locals {
   data_infrastructure = {
-    id = scaleway_redis_cluster.main.id
+    id  = scaleway_redis_cluster.main.id
+    grn = "grn::::redis:"
   }
 
   data_authentication = {
@@ -33,6 +34,6 @@ locals {
 resource "massdriver_artifact" "authentication" {
   field                = "authentication"
   provider_resource_id = scaleway_redis_cluster.main.id
-  name                 = ""
+  name                 = "SCW Redis Cluster"
   artifact             = jsonencode(local.artifact)
 }
