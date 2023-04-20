@@ -1,12 +1,12 @@
 locals {
   data_infrastructure = {
-    id  = scaleway_redis_cluster.main.id
+    id  = module.redis_cluster.id
     grn = "grn::::redis:"
   }
 
   data_authentication = {
-    username = scaleway_redis_cluster.main.user_name
-    password = scaleway_redis_cluster.main.password
+    username = module.redis_cluster.username
+    password = module.redis_cluster.password
     # one host per node when size > 1
     # hostname = scaleway_redis_cluster.main.host
     # port     = scaleway_redis_cluster.main.port
@@ -14,7 +14,7 @@ locals {
 
   data_security = {
     iam = {
-      "read/write" = {
+      "read_write" = {
         permission_set = "RedisReadOnly"
       }
     }
@@ -33,7 +33,7 @@ locals {
 
 resource "massdriver_artifact" "authentication" {
   field                = "authentication"
-  provider_resource_id = scaleway_redis_cluster.main.id
+  provider_resource_id = module.redis_cluster.id
   name                 = "SCW Redis Cluster"
   artifact             = jsonencode(local.artifact)
 }

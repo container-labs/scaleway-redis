@@ -1,5 +1,5 @@
 {
     "do_not_delete": [
-        "scaleway_redis_cluster.main"
+        "module.redis_cluster"
     ]
 }

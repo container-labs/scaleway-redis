@@ -51,19 +51,6 @@ params:
           title: "Standalone"
         - const: cluster
           title: "Cluster"
-    zone:
-      title: Zone
-      type: string
-      $md.immutable: true
-      oneOf:
-      - const: fr-par-1
-        title: Paris 1
-      - const: fr-par-2
-        title: Paris 2
-      - const: nl-ams-1
-        title: Amsterdam 1
-      - const: pl-waw-1
-        title: Warsaw 1
   dependencies:
     cluster_mode:
       oneOf:
