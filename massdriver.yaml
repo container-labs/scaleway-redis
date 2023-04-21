@@ -1,8 +1,8 @@
 # This file will be used to generate all of the schema-*.json files in a bundle
 schema: draft-07
-name: "scw-redis"
+name: "scaleway-redis"
 description: "Scaleway Redis cluster"
-source_url: github.com/massdriver-cloud/scw-redis
+source_url: github.com/container-labs/scaleway-redis
 access: "public"
 type: "infrastructure"
 
